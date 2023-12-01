@@ -9,36 +9,102 @@
     <div id="app">
         <h1>Pousadaria</h1>
 
-        <h3>Listagem de Pousadas</h3>
+        <div v-if="currentPage === 'home'">
+            <h3>Listagem de Pousadas</h3>
 
-        <input class="input" type="text" v-model="searchText" placeholder="Pesquisar pousada">
+            <input class="input" type="text" v-model="searchText" placeholder="Pesquisar pousada">
 
-        <div class="msg" v-if="listInns.length <= 0">
-            Nenhuma pousada encontrada!
+            <div class="msg" v-if="listInns.length <= 0">
+                Nenhuma pousada encontrada!
+            </div>
+
+            <ul>
+                <li v-for="inn in listResult">
+                    <div class="card">
+                        <address>
+                            <strong>{{ inn.name }}</strong>
+                            <br>Razão Social: {{ inn.social_name }}
+                            <br>CNPJ: {{ inn.cnpj }}
+                            <br>Telefone: {{ inn.phone }}
+                            <br>Email: {{ inn.email }}
+
+                            <div>
+                                <strong>Endereço</strong>
+                                <br>Rua: {{ inn.address.street }}
+                                <br>Bairro: {{ inn.address.neighborhood }}
+                                <br>Estado: {{ inn.address.state }}
+                                <br>Cidade: {{ inn.address.city }}
+                                <br>CEP: {{ inn.address.zip_code }}
+                            </div>
+
+                            <button v-on:click="showInnDetails(inn.id)">Detalhes</button>                            
+                        </address>
+                    </div><br>
+                </li>
+            </ul>
         </div>
 
-        <ul>
-            <li v-for="inn, index in listResult">
-                <div class="card">
-                    <address>
-                        <strong>{{ inn.name }}</strong>
-                        <br>Razão Social: {{ inn.social_name }}
-                        <br>CNPJ: {{ inn.cnpj }}
-                        <br>Telefone: {{ inn.phone }}
-                        <br>Email: {{ inn.email }}
+        <div v-if="currentPage === 'details'">
+            <h3>Detalhes da Pousada</h3>
 
-                        <div>
-                            <strong>Endereço</strong>
-                            <br>Rua: {{ inn.address.street }}
-                            <br>Bairro: {{ inn.address.neighborhood }}
-                            <br>Estado: {{ inn.address.state }}
-                            <br>Cidade: {{ inn.address.city }}
-                            <br>CEP: {{ inn.address.zip_code }}
-                        </div>
-                    </address>
-                </div><br>
-            </li>
-        </ul>
+            <button v-on:click="showInnList()">Voltar</button><br><br>
+
+            <div class="card">
+                <address>
+                    <strong>{{ inn.name }}</strong>
+                    <br>Telefone: {{ inn.phone }}
+                    <br>Email: {{ inn.email }}
+                    <br>Status: {{ inn.status }}
+                    <br>Nota média: {{ inn.average_rating }}
+
+                    <div>
+                        <strong>Endereço</strong>
+                        <br>Rua: {{ inn.address.street }}
+                        <br>Bairro: {{ inn.address.neighborhood }}
+                        <br>Estado: {{ inn.address.state }}
+                        <br>Cidade: {{ inn.address.city }}
+                        <br>CEP: {{ inn.address.zip_code }}
+                    </div>
+
+                    <div>
+                        <strong>Adicionais</strong>
+                        <br>Descrição: {{ inn.additionals.description }}
+                        <br>Políticas: {{ inn.additionals.policies }}
+                        <br>Check-in: {{ inn.additionals.check_in }}
+                        <br>Check-out: {{ inn.additionals.check_out }}
+                        <br>Pets: {{ inn.additionals.pets }}
+                    </div>
+
+                    <h4>Quartos</h4>
+
+                    <div class="msg" v-if="inn.rooms.length <= 0">
+                        Nenhum quarto encontrado!
+                    </div>
+
+                    <ul>
+                        <li v-for="room in inn.rooms">
+                            <div class="card">
+                                <address>
+                                    <strong>{{ room.name }}</strong>
+                                    <br>Descrição: {{ room.description }}
+                                    <br>Dimensão: {{ room.dimension }}
+                                    <br>Ocupação máxima: {{ room.max_occupancy }}
+                                    <br>Valor: {{ room.value }}
+                                    <br>Banheiro: {{ room.bathroom }}
+                                    <br>Sacada: {{ room.balcony }}
+                                    <br>Ar condicionado: {{ room.air_conditioning }}
+                                    <br>TV: {{ room.tv }}
+                                    <br>Guarda-roupa: {{ room.wardrobe }}
+                                    <br>Cofre: {{ room.safe }}
+                                    <br>Acessível: {{ room.accessible }}
+                                    <br>Status: {{ room.status }}
+                                </address>
+                            </div><br>
+                        </li>
+                    </ul>
+                </address>
+            </div>
+        </div>            
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
