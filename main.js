@@ -1,7 +1,20 @@
 const app = Vue.createApp({
     data(){
         return{
+            searchText: '',
             listInns: []
+        }
+    },
+
+    computed:{        
+        listResult(){
+            if(this.searchText){                
+                return this.listInns.filter(inn => {
+                    return inn.name.toLowerCase().includes(this.searchText.toLowerCase());
+                });                
+            }else{                
+                return this.listInns;
+            }
         }
     },
 
@@ -12,7 +25,6 @@ const app = Vue.createApp({
 
     methods:{
         async getData() {
-
             let response = await fetch('http://localhost:3000/api/v1/inns');
             let data = await response.json();
 

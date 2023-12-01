@@ -11,12 +11,14 @@
 
         <h3>Listagem de Pousadas</h3>
 
+        <input class="input" type="text" v-model="searchText" placeholder="Pesquisar pousada">
+
         <div class="msg" v-if="listInns.length <= 0">
             Nenhuma pousada encontrada!
         </div>
 
         <ul>
-            <li v-for="inn, index in listInns">
+            <li v-for="inn, index in listResult">
                 <div class="card">
                     <address>
                         <strong>{{ inn.name }}</strong>
