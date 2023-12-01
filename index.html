@@ -14,7 +14,7 @@
 
             <input class="input" type="text" v-model="searchText" placeholder="Pesquisar pousada">
 
-            <div class="msg" v-if="listInns.length <= 0">
+            <div class="msg" v-if="listResult.length <= 0">
                 Nenhuma pousada encontrada!
             </div>
 
@@ -99,12 +99,39 @@
                                     <br>Acessível: {{ room.accessible }}
                                     <br>Status: {{ room.status }}
                                 </address>
+
+                                <button v-on:click="verifyRoomAvailability(inn.id, room.id)">Verificar disponibilidade</button>
                             </div><br>
                         </li>
                     </ul>
                 </address>
             </div>
-        </div>            
+        </div>
+        
+        <div v-if="currentPage === 'availability'">
+            <h3>Disponibilidade de um quarto</h3>
+
+            <button v-on:click="showInnList()">Voltar</button><br><br>
+
+            <input class="input" type="date" v-model="checkIn" placeholder="Data de entrada">
+            <input class="input" type="date" v-model="checkOut" placeholder="Data de saída">
+            <input class="input" type="number" v-model="guests" placeholder="Número de hóspedes">
+
+            <button v-on:click="checkAvailability(checkIn, checkOut, guests)">Consultar</button><br><br>
+
+            <div class="msg" v-if="availability.available === true">
+                Quarto disponível! Valor: {{ availability.value }}
+            </div>
+
+            <div class="msg" v-if="availability.available === false">
+                Quarto indisponível!
+                <ul>
+                    <li v-for="error in availability.errors">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>

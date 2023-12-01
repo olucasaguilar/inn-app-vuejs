@@ -4,7 +4,31 @@ const app = Vue.createApp({
             currentPage : 'home',            
             searchText: '',
             listInns: [],
-            inn: this.defaultInn()
+            inn: {
+                id: '',
+                name: '',
+                phone: '',
+                email: '',
+                status: '',
+                address: {
+                    street: '',
+                    neighborhood: '',
+                    state: '',
+                    city: '',
+                    zip_code: ''
+                },
+                average_rating: '',
+                additionals: {
+                    description: '',
+                    policies: '',
+                    check_in: '',
+                    check_out: '',
+                    pets: ''
+                },
+                rooms: []
+            },
+
+            availability: {}
         }
     },
 
@@ -56,7 +80,12 @@ const app = Vue.createApp({
             let data = await response.json();
             this.inn.rooms = data;
         },
-
+        
+        async getRoomAvailability(id, room_id, check_in, check_out, guests){
+            let response = await fetch(`http://localhost:3000/api/v1/inns/${id}/rooms/${room_id}/availability?check_in=${check_in}&check_out=${check_out}&guests=${guests}`);
+            let data = await response.json();
+            this.availability = data;
+        },
 
         showInnDetails(index){
             this.getInnDetails(index);
@@ -66,7 +95,21 @@ const app = Vue.createApp({
 
         showInnList(){
             this.inn = this.defaultInn();
+            this.searchText = '';
             this.currentPage = 'home';
+            this.availability = {};
+            this.checkIn = '';
+            this.checkOut = '';
+            this.guests = '';
+        },
+
+        verifyRoomAvailability(inn_id, room_id){     
+            this.inn.current_room_id = room_id;       
+            this.currentPage = 'availability';
+        },
+
+        checkAvailability(){
+            this.getRoomAvailability(this.inn.id, this.inn.current_room_id, this.checkIn, this.checkOut, this.guests);
         },
 
         defaultInn(){
@@ -90,7 +133,8 @@ const app = Vue.createApp({
                     check_in: '',
                     check_out: '',
                     pets: ''
-                }
+                },
+                rooms: []
             }
         }
     }
