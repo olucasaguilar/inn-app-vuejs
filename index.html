@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pousadaria</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>  
     <div id="app">
@@ -19,7 +20,7 @@
             </div>
 
             <ul>
-                <li v-for="inn in listResult">
+                <li class="li-inns" v-for="inn in listResult">
                     <div class="card">
                         <address>
                             <strong>{{ inn.name }}</strong>
@@ -37,7 +38,7 @@
                                 <br>CEP: {{ inn.address.zip_code }}
                             </div>
 
-                            <button v-on:click="showInnDetails(inn.id)">Detalhes</button>                            
+                            <button class="button" v-on:click="showInnDetails(inn.id)">Detalhes</button>                            
                         </address>
                     </div><br>
                 </li>
@@ -47,7 +48,7 @@
         <div v-if="currentPage === 'details'">
             <h3>Detalhes da Pousada</h3>
 
-            <button v-on:click="showInnList()">Voltar</button><br><br>
+            <button class="button" v-on:click="showInnList()">Voltar</button><br><br>
 
             <div class="card">
                 <address>
@@ -100,7 +101,7 @@
                                     <br>Status: {{ room.status }}
                                 </address>
 
-                                <button v-on:click="verifyRoomAvailability(inn.id, room.id)">Verificar disponibilidade</button>
+                                <button class="button" v-on:click="verifyRoomAvailability(inn.id, room.id)">Verificar disponibilidade</button>
                             </div><br>
                         </li>
                     </ul>
@@ -111,13 +112,13 @@
         <div v-if="currentPage === 'availability'">
             <h3>Disponibilidade de um quarto</h3>
 
-            <button v-on:click="showInnList()">Voltar</button><br><br>
+            <button class="button" v-on:click="showInnList()">Voltar</button><br><br>
 
             <input class="input" type="date" v-model="checkIn" placeholder="Data de entrada">
             <input class="input" type="date" v-model="checkOut" placeholder="Data de saída">
             <input class="input" type="number" v-model="guests" placeholder="Número de hóspedes">
 
-            <button v-on:click="checkAvailability(checkIn, checkOut, guests)">Consultar</button><br><br>
+            <button class="button" v-on:click="checkAvailability(checkIn, checkOut, guests)">Consultar</button><br><br>
 
             <div class="msg" v-if="availability.available === true">
                 Quarto disponível! Valor: {{ availability.value }}
