@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pousadaria</title>
+</head>
+<body>  
+    <div id="app">
+        <h1>Pousadaria</h1>
+
+        <h3>Listagem de Pousadas</h3>
+
+        <div class="msg" v-if="listInns.length <= 0">
+            Nenhuma pousada encontrada!
+        </div>
+
+        <ul>
+            <li v-for="inn, index in listInns">
+                <div class="card">
+                    <address>
+                        <strong>{{ inn.name }}</strong>
+                        <br>Razão Social: {{ inn.social_name }}
+                        <br>CNPJ: {{ inn.cnpj }}
+                        <br>Telefone: {{ inn.phone }}
+                        <br>Email: {{ inn.email }}
+
+                        <div>
+                            <strong>Endereço</strong>
+                            <br>Rua: {{ inn.address.street }}
+                            <br>Bairro: {{ inn.address.neighborhood }}
+                            <br>Estado: {{ inn.address.state }}
+                            <br>Cidade: {{ inn.address.city }}
+                            <br>CEP: {{ inn.address.zip_code }}
+                        </div>
+                    </address>
+                </div><br>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
